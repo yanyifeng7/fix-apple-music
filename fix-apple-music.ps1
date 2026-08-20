@@ -37,6 +37,11 @@
 #Requires -Version 5.1
 $ErrorActionPreference = 'Stop'
 
+# --- Log all output to a file (so even if the console closes too fast,
+#     the user can read what happened) ------------------------------------
+$logFile = Join-Path $env:TEMP ("fix-apple-music-" + (Get-Date -Format 'yyyyMMdd-HHmmss') + ".log")
+Start-Transcript -Path $logFile -Append -ErrorAction SilentlyContinue | Out-Null
+
 # --- Self-elevate to admin (one UAC prompt) --------------------------------
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal(
     [Security.Principal.WindowsIdentity]::GetCurrent()
@@ -163,5 +168,8 @@ Write-Host '    - Re-run this script (safe to run multiple times)' -ForegroundCo
 Write-Host '    - File an Apple Music feedback from the app menu (Help > Send Feedback)' -ForegroundColor DarkGray
 Write-Host '=========================================================' -ForegroundColor Cyan
 Write-Host ''
+Write-Host ("Full output also saved to: $logFile") -ForegroundColor DarkGray
+Write-Host ''
 Write-Host 'Press Enter to close this window.'
 Read-Host | Out-Null
+Stop-Transcript | Out-Null
