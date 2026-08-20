@@ -174,6 +174,10 @@ Write-Host '=========================================================' -Foregrou
 Write-Host ''
 Write-Host ("Full output also saved to: $logFile") -ForegroundColor DarkGray
 Write-Host ''
-Write-Host 'Press Enter to close this window.'
-Read-Host | Out-Null
 Stop-Transcript | Out-Null
+# Use cmd /c pause instead of Read-Host - Read-Host fails when PowerShell
+# is launched via 'Run with PowerShell' (right-click) because the host
+# process closes stdin immediately, causing the prompt to return null
+# and exit. cmd /c pause is bulletproof and keeps the window open until
+# the user explicitly presses a key.
+cmd /c pause
