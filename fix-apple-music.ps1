@@ -103,7 +103,9 @@ Get-Process -Name 'AppleMusic', 'AMPLibraryAgent' -ErrorAction SilentlyContinue 
 Start-Sleep -Seconds 2
 
 # --- Optional: probe the broken state before fixing (informational) --------
-$logPath = Join-Path $env:LOCALAPPDATA 'Packages' $packageName 'LocalCache\Local\Logs'
+$logPath = Join-Path $env:LOCALAPPDATA 'Packages'
+$logPath = Join-Path $logPath $packageName
+$logPath = Join-Path $logPath 'LocalCache\Local\Logs'
 $kccaErrorsBefore = 0
 if (Test-Path $logPath) {
     $authLogs = Get-ChildItem -Path $logPath -Filter 'AuthKitWin.*.log' -ErrorAction SilentlyContinue |
@@ -134,7 +136,9 @@ try {
 
 # --- Verify the fix actually cleared the broken state ----------------------
 Start-Sleep -Seconds 2
-$logPathAfter = Join-Path $env:LOCALAPPDATA 'Packages' $packageName 'LocalCache\Local\Logs'
+$logPathAfter = Join-Path $env:LOCALAPPDATA 'Packages'
+$logPathAfter = Join-Path $logPathAfter $packageName
+$logPathAfter = Join-Path $logPathAfter 'LocalCache\Local\Logs'
 $stillBroken = $false
 if (Test-Path $logPathAfter) {
     $authLogsAfter = Get-ChildItem -Path $logPathAfter -Filter 'AuthKitWin.*.log' -ErrorAction SilentlyContinue |
