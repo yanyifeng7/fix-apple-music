@@ -1,0 +1,32 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260819235140
+Username: DESKTOP-0UA0C9G\YF
+RunAs User: DESKTOP-0UA0C9G\YF
+Configuration Name: 
+Machine: DESKTOP-0UA0C9G (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -Command 
+# Run the script directly with explicit transcript, no Start-Transcript in the script
+Start-Transcript -Path 'C:\Users\YF\Desktop\fix-apple-music\test_run.log' -Force | Out-Null
+try {
+    & 'C:\Users\YF\Downloads\fix-apple-music.ps1' 2>&1 | Out-Host
+} catch {
+    Write-Host ('CAUGHT: ' + $_.Exception.Message)
+}
+Stop-Transcript | Out-Null
+
+Process ID: 31764
+PSVersion: 5.1.26100.9168
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9168
+BuildVersion: 10.0.26100.9168
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+CAUGHT: File C:\Users\YF\Downloads\fix-apple-music.ps1 cannot be loaded. The file C:\Users\YF\Downloads\fix-apple-music.ps1 is not digitally signed. You cannot run this script on the current system. For more information about running scripts and setting execution policy, see about_Execution_Policies at https:/go.microsoft.com/fwlink/?LinkID=135170.
+**********************
+Windows PowerShell transcript end
+End time: 20260819235140
+**********************

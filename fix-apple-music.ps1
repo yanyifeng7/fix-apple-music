@@ -37,6 +37,33 @@
 #Requires -Version 5.1
 $ErrorActionPreference = 'Stop'
 
+# --- Unblock this file (if it was downloaded with Mark-of-the-Web) and
+#     self-relaunch with Bypass policy if blocked. "Run with PowerShell"
+#     from the right-click menu launches powershell.exe WITHOUT -ExecutionPolicy
+#     Bypass, so unsigned scripts from Downloads/Documents/etc fail with
+#     "not digitally signed". This block fixes that transparently. --------
+
+try {
+    Unblock-File -Path $PSCommandPath -ErrorAction Stop
+} catch { }
+
+# If we're not already running Bypass, re-launch ourselves with it.
+# Skip if we're already elevated (the elevation re-launch handles policy
+# via -ExecutionPolicy Bypass too, so this is belt-and-suspenders).
+$currentPolicy = Get-ExecutionPolicy -Scope Process -ErrorAction SilentlyContinue
+if ($currentPolicy -eq 'Restricted' -or $currentPolicy -eq 'AllSigned' -or $currentPolicy -eq 'RemoteSigned') {
+    $scriptPath = $MyInvocation.MyCommand.Path
+    if ($scriptPath) {
+        $args = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', "`"$scriptPath`"")
+        try {
+            Start-Process -FilePath 'powershell.exe' -ArgumentList $args -Verb RunAs -Wait -WindowStyle Normal
+            exit $LASTEXITCODE
+        } catch {
+            # User declined UAC or elevation failed; fall through and try anyway
+        }
+    }
+}
+
 # --- Log all output to a file (so even if the console closes too fast,
 #     the user can read what happened) ------------------------------------
 $logFile = Join-Path $env:TEMP ("fix-apple-music-" + (Get-Date -Format 'yyyyMMdd-HHmmss') + ".log")
