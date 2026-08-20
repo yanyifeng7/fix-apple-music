@@ -32,12 +32,19 @@ This script automates **option 2** with a single double-click + one UAC prompt.
 
 ## Usage
 
-1. Download `fix-apple-music.ps1` (or clone this repo)
-2. **Right-click → "Run with PowerShell"** (or run from an elevated PowerShell)
-3. Approve the UAC prompt
-4. Wait ~10 seconds for the fix
-5. **Open Apple Music from the Start menu**
-6. Play a song. It works.
+**The easiest way: double-click `fix-apple-music.bat`** (NOT the .ps1 directly).
+
+The .bat wrapper handles Windows PowerShell's "unsigned script" blocking
+automatically. If you right-click the `.ps1` and choose "Run with
+PowerShell", Windows may reject it with:
+
+> File ... cannot be loaded. The file ... is not digitally signed.
+
+The `.bat` invokes PowerShell with `-ExecutionPolicy Bypass` so this
+never happens.
+
+Alternative: download `fix-apple-music.ps1`, right-click → Properties →
+check "Unblock" → OK → then double-click the .ps1.
 
 ## Requirements
 
