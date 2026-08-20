@@ -3,7 +3,34 @@
 One-click PowerShell fix for the
 **"An unknown error has occurred"** (also reported as **error 18006** or
 **KCCAError 4** in logs) problem that bricks the Microsoft Store version of
-Apple Music for Windows.
+Apple Music on Windows.
+
+## Quick start (30 seconds)
+
+1. **Download two files** (click each → download):
+   - `fix-apple-music.bat`
+   - `fix-apple-music.ps1`
+2. **Put them in the same folder** (e.g. your `Downloads\` folder).
+3. **Double-click `fix-apple-music.bat`** — click **Yes** on the UAC prompt.
+4. **Open Apple Music** from the Start menu when the script finishes.
+5. **Play any song** — it should work immediately.
+
+You should see output like:
+
+```
+[fix-apple-music] Found Apple Music package: AppleInc.AppleMusicWin ...
+[fix-apple-music] Reset OK.
+[fix-apple-music] Cache reset looks clean.
+```
+
+The window stays open with `Press any key to close...` — press any key when done.
+
+**Why the .bat?** Running the `.ps1` directly via "Run with PowerShell"
+fails with *“not digitally signed”* on unsigned scripts. The `.bat`
+wrapper invokes PowerShell with `-ExecutionPolicy Bypass`, which fixes that.
+
+If it still doesn't work, the full log is saved to:
+`%TEMP%\fix-apple-music-<timestamp>.log` — read it to see what failed.
 
 ## What this fixes
 
@@ -29,22 +56,6 @@ This script automates **option 2** with a single double-click + one UAC prompt.
 - Your downloaded songs / DRM licenses
 - The classic iTunes install (if you have it)
 - Any other apps
-
-## Usage
-
-**The easiest way: double-click `fix-apple-music.bat`** (NOT the .ps1 directly).
-
-The .bat wrapper handles Windows PowerShell's "unsigned script" blocking
-automatically. If you right-click the `.ps1` and choose "Run with
-PowerShell", Windows may reject it with:
-
-> File ... cannot be loaded. The file ... is not digitally signed.
-
-The `.bat` invokes PowerShell with `-ExecutionPolicy Bypass` so this
-never happens.
-
-Alternative: download `fix-apple-music.ps1`, right-click → Properties →
-check "Unblock" → OK → then double-click the .ps1.
 
 ## Requirements
 
